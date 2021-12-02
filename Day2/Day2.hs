@@ -33,7 +33,7 @@ solve2 = (\(x,y,z) -> x * y) . foldl (flip fold) (0, 0, 0)
   fold :: Direction Int -> (Int, Int, Int) -> (Int, Int, Int)
   fold = foldDirection (\n (x,y,z) -> (x + n, y + z * n, z)) (second . (+)) (second . subtract)
 
--- | A simple solution version without use of higher order
+-- | A simple solution without extensive use of higher order
 notFold :: [Direction Int] -> Int
 notFold = uncurry (*) . fst . notFold' 0 0 0
  where
