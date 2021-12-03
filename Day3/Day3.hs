@@ -20,7 +20,7 @@ toBin = map toBit
   toBit _   = error ""
 
 toInt :: [Bool] -> Int
-toInt = foldl (\r b -> bool (2 * r) (1 + 2 * r) b) 0
+toInt = foldl (\r b -> 2 * r + bool 0 1 b) 0
 
 solve :: [[Bool]] -> Int
 solve = mult . map majority . transpose
