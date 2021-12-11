@@ -19,7 +19,7 @@ toInput (l:ls) = (toInts l, toBoards ls)
   toBoards [] = []
   toBoards xs = (map (zip (repeat False) . map read . words) . drop 1 . take 6) xs : toBoards (drop 6 xs)
 
--- Solution for part 1
+-- | Solution for part 1
 solve1 :: ([Int], [Board]) -> Int
 solve1 (i, bs) = uncurry (*) . second computeScore $ evalState (solveS i) bs
 
@@ -32,7 +32,7 @@ solveS (x:xs) = do
     if null b then solveS xs
               else return (x, head b)
 
--- Solution for part 2
+-- | Solution for part 2
 solve2 :: ([Int], [Board]) -> Int
 solve2 (i, bs) = uncurry (*) . second computeScore $ evalState (solve2S i) bs
  where
@@ -51,5 +51,4 @@ updateBoard :: Int -> Board -> Board
 updateBoard x = map (map (\(b, y) -> if y == x then (True, y) else (b, y)))
 
 computeScore :: Board -> Int
-computeScore = sum . map snd . filter (not . fst). concat 
-
+computeScore = sum . map snd . filter (not . fst). concat
