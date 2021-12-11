@@ -21,9 +21,7 @@ tryMatch :: String -> [Char] -> [Char]
 tryMatch []     s = []
 tryMatch (x:xs) s | isOpen   x = tryMatch xs (flipB x:s)
                   | isClosed x = maybe [] (\y -> if y == x then tryMatch xs (tail s) else x:s) (listToMaybe s)
-                  | otherwise  = error "Meh"
-
-
+                  | otherwise  = error "No bracket"
 
 -- | Solution to task 2
 solve2 :: [String] -> Int
@@ -38,13 +36,13 @@ valueS = foldl (\acc x -> value x + acc * 5) 0
    ']' -> 2
    '}' -> 3
    '>' -> 4
-   _   -> error "Meeeeeh"
+   _   -> error "No value"
 
 tryMatch2 :: String -> [Char] -> [Char]
 tryMatch2 []     s =  s
 tryMatch2 (x:xs) s | isOpen   x = tryMatch2 xs (flipB x:s)
                    | isClosed x = maybe (trace "lul" []) (\y -> if y == x then tryMatch2 xs (tail s) else []) (listToMaybe s)
-                   | otherwise  = error "Meh^2"
+                   | otherwise  = error "No bracket"
 
 isOpen :: Char -> Bool
 isOpen = flip elem "({[<"
