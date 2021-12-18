@@ -4,8 +4,6 @@ import Data.List ( groupBy, transpose, partition )
 import Data.Function ( on )
 import Data.Char ( isAlpha, isNumber )
 import Data.Bool ( bool )
-import Debug.Trace (traceShow)
-
 
 main :: IO ()
 main =  readFile ".\\input.txt" >>= mapM_ putStrLn . solve2 . toInput . lines
