@@ -12,9 +12,9 @@ toInput :: [String] -> ([Int], [Board])
 toInput []     = ([], [])
 toInput (l:ls) = (toInts l, toBoards ls)
  where
-  toInts :: String -> [Int] 
-  toInts =  map read . filter (/= ",") . groupBy (\x y -> isNumber x && isNumber y) 
-  
+  toInts :: String -> [Int]
+  toInts =  map read . filter (/= ",") . groupBy (\x y -> isNumber x && isNumber y)
+
   toBoards :: [String] -> [Board]
   toBoards [] = []
   toBoards xs = (map (zip (repeat False) . map read . words) . drop 1 . take 6) xs : toBoards (drop 6 xs)
@@ -28,7 +28,7 @@ solveS :: [Int] -> State [Board] (Int, Board)
 solveS []     = error "Somebody always wins"
 solveS (x:xs) = do
     modify (map (updateBoard x))
-    b <- gets (filter hasWon) 
+    b <- gets (filter hasWon)
     if null b then solveS xs
               else return (x, head b)
 
@@ -40,7 +40,7 @@ solve2 (i, bs) = uncurry (*) . second computeScore $ evalState (solve2S i) bs
   solve2S :: [Int] -> State [Board] (Int, Board)
   solve2S []     = error "Somebody always wins"
   solve2S (x:xs) = do
-      b <- get 
+      b <- get
       if length b /= 1 then modify (filter (not . hasWon) . map (updateBoard x)) >> solve2S xs
                        else solveS (x:xs)
 
@@ -51,4 +51,4 @@ updateBoard :: Int -> Board -> Board
 updateBoard x = map (map (\(b, y) -> if y == x then (True, y) else (b, y)))
 
 computeScore :: Board -> Int
-computeScore = sum . map snd . filter (not . fst). concat
+computeScore = sum . map snd . concatMap (filter (not . fst))
